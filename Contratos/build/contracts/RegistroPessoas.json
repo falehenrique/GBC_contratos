@@ -1,0 +1,658 @@
+{
+  "contractName": "RegistroPessoas",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "enderecoContratoPessoa",
+          "type": "address"
+        }
+      ],
+      "name": "salvaPessoas",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "listaContaPessoas",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_contaPessoa",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_contaContratoPessoa",
+          "type": "address"
+        }
+      ],
+      "name": "LogPersonSalvaNoRegistro",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x6060604052341561000f57600080fd5b61033f8061001e6000396000f30060606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680639f40968214610051578063a48185f3146100a2575b600080fd5b341561005c57600080fd5b610088600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610105565b604051808215151515815260200191505060405180910390f35b34156100ad57600080fd5b6100c36004808035906020019091905050610283565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600080805480600101828161011a91906102c2565b9160005260206000209001600033909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505081600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507fc0dfd55d281d0c203b3b6f202e37b5e54b76bbda0f0246a9781c8b8957dfaf5d3330604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a1919050565b60008181548110151561029257fe5b90600052602060002090016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b8154818355818115116102e9578183600052602060002091820191016102e891906102ee565b5b505050565b61031091905b8082111561030c5760008160009055506001016102f4565b5090565b905600a165627a7a723058205eaec0f7eaedf0c91886af44cf52c5743e7cb3a73524a2dc7382df851ce3f12a0029",
+  "deployedBytecode": "0x60606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680639f40968214610051578063a48185f3146100a2575b600080fd5b341561005c57600080fd5b610088600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610105565b604051808215151515815260200191505060405180910390f35b34156100ad57600080fd5b6100c36004808035906020019091905050610283565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b600080805480600101828161011a91906102c2565b9160005260206000209001600033909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505081600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507fc0dfd55d281d0c203b3b6f202e37b5e54b76bbda0f0246a9781c8b8957dfaf5d3330604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019250505060405180910390a1919050565b60008181548110151561029257fe5b90600052602060002090016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b8154818355818115116102e9578183600052602060002091820191016102e891906102ee565b5b505050565b61031091905b8082111561030c5760008160009055506001016102f4565b5090565b905600a165627a7a723058205eaec0f7eaedf0c91886af44cf52c5743e7cb3a73524a2dc7382df851ce3f12a0029",
+  "sourceMap": "26:446:3:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "26:446:3:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;232:238;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;57:34;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;232:238;301:4;317:17;:34;;;;;;;;;;;:::i;:::-;;;;;;;;;;340:10;317:34;;;;;;;;;;;;;;;;;;;;;;;387:22;361:11;:23;373:10;361:23;;;;;;;;;;;;;;;;:48;;;;;;;;;;;;;;;;;;421:42;446:10;458:4;421:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;232:238;;;:::o;57:34::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;26:446::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.16;\n\ncontract RegistroPessoas {\n    address[] public listaContaPessoas;\n    mapping(address => address) mapaPessoas;\n    event LogPersonSalvaNoRegistro(address _contaPessoa, address _contaContratoPessoa); \n\n    function salvaPessoas(address enderecoContratoPessoa) public returns(bool) {\n        listaContaPessoas.push(msg.sender);\n        mapaPessoas[msg.sender] = enderecoContratoPessoa;  \n        LogPersonSalvaNoRegistro(msg.sender, this);\n    }\n}",
+  "sourcePath": "/Users/hgleite/Documents/henrique/GoBlockchain/Contratos/contracts/registros/RegistrosPessoas.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/Users/hgleite/Documents/henrique/GoBlockchain/Contratos/contracts/registros/RegistrosPessoas.sol",
+      "exportedSymbols": {
+        "RegistroPessoas": [
+          193
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".16"
+          ]
+        },
+        "id": 151,
+        "name": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            193
+          ],
+          "name": "RegistroPessoas",
+          "scope": 194
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "listaContaPessoas",
+              "scope": 193,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "address[] storage ref",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "length": null,
+                  "type": "address[] storage pointer"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 152,
+                    "name": "ElementaryTypeName",
+                    "src": "57:7:3"
+                  }
+                ],
+                "id": 153,
+                "name": "ArrayTypeName",
+                "src": "57:9:3"
+              }
+            ],
+            "id": 154,
+            "name": "VariableDeclaration",
+            "src": "57:34:3"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "mapaPessoas",
+              "scope": 193,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "mapping(address => address)",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "type": "mapping(address => address)"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 155,
+                    "name": "ElementaryTypeName",
+                    "src": "105:7:3"
+                  },
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 156,
+                    "name": "ElementaryTypeName",
+                    "src": "116:7:3"
+                  }
+                ],
+                "id": 157,
+                "name": "Mapping",
+                "src": "97:27:3"
+              }
+            ],
+            "id": 158,
+            "name": "VariableDeclaration",
+            "src": "97:39:3"
+          },
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "LogPersonSalvaNoRegistro"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "_contaPessoa",
+                      "scope": 164,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 159,
+                        "name": "ElementaryTypeName",
+                        "src": "173:7:3"
+                      }
+                    ],
+                    "id": 160,
+                    "name": "VariableDeclaration",
+                    "src": "173:20:3"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "_contaContratoPessoa",
+                      "scope": 164,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 161,
+                        "name": "ElementaryTypeName",
+                        "src": "195:7:3"
+                      }
+                    ],
+                    "id": 162,
+                    "name": "VariableDeclaration",
+                    "src": "195:28:3"
+                  }
+                ],
+                "id": 163,
+                "name": "ParameterList",
+                "src": "172:52:3"
+              }
+            ],
+            "id": 164,
+            "name": "EventDefinition",
+            "src": "142:83:3"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "salvaPessoas",
+              "payable": false,
+              "scope": 193,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "enderecoContratoPessoa",
+                      "scope": 192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 165,
+                        "name": "ElementaryTypeName",
+                        "src": "254:7:3"
+                      }
+                    ],
+                    "id": 166,
+                    "name": "VariableDeclaration",
+                    "src": "254:30:3"
+                  }
+                ],
+                "id": 167,
+                "name": "ParameterList",
+                "src": "253:32:3"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 192,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 168,
+                        "name": "ElementaryTypeName",
+                        "src": "301:4:3"
+                      }
+                    ],
+                    "id": 169,
+                    "name": "VariableDeclaration",
+                    "src": "301:4:3"
+                  }
+                ],
+                "id": 170,
+                "name": "ParameterList",
+                "src": "300:6:3"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "uint256",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "push",
+                              "referencedDeclaration": null,
+                              "type": "function (address) returns (uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 154,
+                                  "type": "address[] storage ref",
+                                  "value": "listaContaPessoas"
+                                },
+                                "id": 171,
+                                "name": "Identifier",
+                                "src": "317:17:3"
+                              }
+                            ],
+                            "id": 173,
+                            "name": "MemberAccess",
+                            "src": "317:22:3"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "sender",
+                              "referencedDeclaration": null,
+                              "type": "address"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 205,
+                                  "type": "msg",
+                                  "value": "msg"
+                                },
+                                "id": 174,
+                                "name": "Identifier",
+                                "src": "340:3:3"
+                              }
+                            ],
+                            "id": 175,
+                            "name": "MemberAccess",
+                            "src": "340:10:3"
+                          }
+                        ],
+                        "id": 176,
+                        "name": "FunctionCall",
+                        "src": "317:34:3"
+                      }
+                    ],
+                    "id": 177,
+                    "name": "ExpressionStatement",
+                    "src": "317:34:3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "address"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": true,
+                              "type": "address"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 158,
+                                  "type": "mapping(address => address)",
+                                  "value": "mapaPessoas"
+                                },
+                                "id": 178,
+                                "name": "Identifier",
+                                "src": "361:11:3"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "sender",
+                                  "referencedDeclaration": null,
+                                  "type": "address"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 205,
+                                      "type": "msg",
+                                      "value": "msg"
+                                    },
+                                    "id": 179,
+                                    "name": "Identifier",
+                                    "src": "373:3:3"
+                                  }
+                                ],
+                                "id": 180,
+                                "name": "MemberAccess",
+                                "src": "373:10:3"
+                              }
+                            ],
+                            "id": 181,
+                            "name": "IndexAccess",
+                            "src": "361:23:3"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 166,
+                              "type": "address",
+                              "value": "enderecoContratoPessoa"
+                            },
+                            "id": 182,
+                            "name": "Identifier",
+                            "src": "387:22:3"
+                          }
+                        ],
+                        "id": 183,
+                        "name": "Assignment",
+                        "src": "361:48:3"
+                      }
+                    ],
+                    "id": 184,
+                    "name": "ExpressionStatement",
+                    "src": "361:48:3"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                },
+                                {
+                                  "typeIdentifier": "t_contract$_RegistroPessoas_$193",
+                                  "typeString": "contract RegistroPessoas"
+                                }
+                              ],
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 164,
+                              "type": "function (address,address)",
+                              "value": "LogPersonSalvaNoRegistro"
+                            },
+                            "id": 185,
+                            "name": "Identifier",
+                            "src": "421:24:3"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "sender",
+                              "referencedDeclaration": null,
+                              "type": "address"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 205,
+                                  "type": "msg",
+                                  "value": "msg"
+                                },
+                                "id": 186,
+                                "name": "Identifier",
+                                "src": "446:3:3"
+                              }
+                            ],
+                            "id": 187,
+                            "name": "MemberAccess",
+                            "src": "446:10:3"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 220,
+                              "type": "contract RegistroPessoas",
+                              "value": "this"
+                            },
+                            "id": 188,
+                            "name": "Identifier",
+                            "src": "458:4:3"
+                          }
+                        ],
+                        "id": 189,
+                        "name": "FunctionCall",
+                        "src": "421:42:3"
+                      }
+                    ],
+                    "id": 190,
+                    "name": "ExpressionStatement",
+                    "src": "421:42:3"
+                  }
+                ],
+                "id": 191,
+                "name": "Block",
+                "src": "307:163:3"
+              }
+            ],
+            "id": 192,
+            "name": "FunctionDefinition",
+            "src": "232:238:3"
+          }
+        ],
+        "id": 193,
+        "name": "ContractDefinition",
+        "src": "26:446:3"
+      }
+    ],
+    "id": 194,
+    "name": "SourceUnit",
+    "src": "0:472:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-12-01T20:45:13.645Z"
+}
