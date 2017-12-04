@@ -19,10 +19,13 @@ contract Pessoa is Owner {
         cpf = _cpf;
         dataNascimento = _dataNascimento;
         dono = msg.sender;
-        RegistroPessoas(_enderecoRegistroPessoas).salvaPessoas(this);
+        RegistrosPessoas(_enderecoRegistroPessoas).salvaPessoas(this);
     }
     
     function mudarEmail(string _newMail) public apenasDono {
        email = _newMail;
     }
+    function getCpf() public view returns(int) {
+       return cpf;
+    }    
 }

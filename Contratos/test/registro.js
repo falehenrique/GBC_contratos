@@ -1,14 +1,16 @@
-var RegistroPessoas = artifacts.require("RegistroPessoas");
-contract('RegistroPessoas Validation', function(accounts) {
-  var registroPessoas;
+var TesteTruffle = artifacts.require("TesteTruffle");
+contract('TesteTruffle Validation', function(accounts) {
+  var testeTruffle;
 
   it("should validate", function(done) {
-        RegistroPessoas.deployed().then(function(instance) {
-            registroPessoas = instance;
-            return registroPessoas.listaContaPessoas.length;
-            }).then(function() {
-            return mockValidation.getValidationsCount.call();
-        }).then(done)
+    TesteTruffle.deployed().then(function(instance) {
+            testeTruffle = instance;
+            return testeTruffle.getNome();
+        }).then(function(nome){
+            console.info(nome);
+            assert.equal(nome, "henrique", "nome esta correto");
+        }
+        ).then(done)
         .catch(done);
     });
 });
