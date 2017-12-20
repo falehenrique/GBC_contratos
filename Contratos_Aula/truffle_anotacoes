@@ -1,0 +1,3 @@
+/Mist --rpc http://localhost:8545 --swarmurl="http://swarm-gateways.net"
+
+truffle init

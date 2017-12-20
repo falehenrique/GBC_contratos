@@ -1,96 +1,91 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.18;
 
-import "../../zeppelin/ownership/Ownable.sol";
+import "../../zeppelin/lifecycle/Destructible.sol";
+import "../student/StudentInterface.sol";
+import "./TeacherInterface.sol";
 
-contract Teacher is Ownable {
-    address addressTeacherPerson;
-    uint16 public score;
+
+    //Courses
+    function createCourse(int64 _codeCourse, string _name) public;
+    function listCourse() public;
+    function totalStudentByCourse(int64 _codeCourse) public view returns(uint256);
+    function subscribeCourse(address _addressStudent, int64 _codeCourse) public;
+    function totalVotesByCourse(int64 _codeCourse) public view returns(uint256);
+    function scoreCourse(int64 codeCourse) public view returns(int8 score, bool finish, uint256 totalStudent);
+
+    //Teacher
+    function score() public returns(uint8);
+
+    //reputation
+    function sendReputation(address _addressStudent, int64 _codeCourse, int8 _reputation) public;
+
+
+
+
+contract Teacher is TeacherInterface, Destructible {
     string public description;
     
-    mapping(int => Course) public courses;
-    Course[] public codeCourses;
+    mapping(int64 => Course) public courses;
+    int8 public totalCourses;
 
-    event LogCourseCreated(int codeCourse);
-    event LogStudentRegistered(address addressStudent, int codeCourse, uint256 value);
-
-    struct Course {
-        int code;
-        int8 qtdPersonLimit;
-        string name;
-        string description;
-        uint8 qtdHours;
-        int8 score;        
-        int8[] votes;
-        address[] addressStudent;
-        uint256 price;
-        mapping(address => bool) mapStudent;
-        mapping(int => string) comments;
-    }
-
-    function Teacher(address _addressTeacherPerson, string _description) public {
-        addressTeacherPerson = _addressTeacherPerson;
+    function Teacher(string _description) public {
         description = _description;
     }
 
-    function createCourse(int _codeCourse, int8 _qtdPersonLimit,
-        string _name, string _description,
-        uint8 _qtdHours, uint256 _price) public onlyOwner
-    {
-
+    function createCourse(int64 _codeCourse, string _name) public onlyOwner {
        courses[_codeCourse] = Course ({
             code: _codeCourse,
-            qtdPersonLimit: _qtdPersonLimit,
             name: _name,
-            description: _description,
-            qtdHours: _qtdHours,
             score: 0,
             votes: new int8[](0),
-            addressStudent: new address[](0),
-            price: _price
+            addressStudent: new address[](0)
         });
+        totalCourses++;
 
+        LogCourseCreated(_codeCourse);
     }
 
-    function subscribeCourse(address _addressStudent, int _codeCourse) public payable returns (bool) {
-        require(courses[_codeCourse].qtdHours > 0);
-        if (msg.value == courses[_codeCourse].price) {
-            owner.transfer(msg.value);
-            courses[_codeCourse].addressStudent.push(_addressStudent);
-            LogStudentRegistered(_addressStudent, _codeCourse, msg.value);
-            return true;
-        } else {
-            return false;
-        }
+    function subscribeCourse(address _addressStudent, int64 _codeCourse) public {
+        courses[_codeCourse].addressStudent.push(_addressStudent);
+        courses[_codeCourse].mapStudent[_addressStudent] = true;
+        LogStudentRegistered(_addressStudent, _codeCourse);
     }
 
-    function getTotalStudentByCourse(int _codeCourse) public view onlyOwner returns(uint256) {
+    function subscriptionConfirmed(address _addressStudent, int64 _codeCourse) public view returns (bool) {
+        return bool(courses[_codeCourse].mapStudent[_addressStudent]);
+    }
+
+    function getTotalStudentByCourse(int64 _codeCourse) public view returns(uint256) {
         return courses[_codeCourse].addressStudent.length;
     }
 
-    function getTotalCourses() public view onlyOwner returns(uint256) {
-        return codeCourses.length;
-    }
-
-    function getNumVotos(int _codigoCurso) public view returns(uint256) {
+    function getNumVotos(int64 _codigoCurso) public view returns(uint256) {
         return courses[_codigoCurso].votes.length;
     }
 
-    event LogEventReceiveReputation(address addressStudent, int8 _reputation);
-
-
-    function sendReputation(address _addressStudent, int _codeCourse, int8 _reputation, string comments)
+    function sendReputation(address _addressStudent, int64 _codeCourse, int8 _reputation)
         public
         {
-        courses[_codeCourse].comments[_reputation] = comments;
+        assert(subscriptionConfirmed(_addressStudent, _codeCourse));
+
+        StudentInterface student = StudentInterface(_addressStudent);
+        student.receiveCertificate(this, _codeCourse, courses[_codeCourse].name);
+        LogEventCertificadoGerado(_addressStudent, _codeCourse);
+
         courses[_codeCourse].votes.push(_reputation);
-        courses[_codeCourse].mapStudent[_addressStudent] = true;
-
         LogEventReceiveReputation(_addressStudent, _reputation);
-
-        // if (receberCertificado) {
-        //     Aluno aluno = Aluno(enderecoAluno);
-        //     aluno.gerarCertificado(this, listaCursos[codigoCurso].codigoCurso, listaCursos[codigoCurso].nomeCurso, listaCursos[codigoCurso].qtdHoras);
-        // }
     }
 
+    function getScoreCourse(int64 codeCourse) public view returns(int8 score, bool finish, uint256 totalStudent) {
+        Course storage course = courses[codeCourse];
+        int8 scoreCourse = 0;
+        for (uint256 i = 0; i < course.votes.length; i++) {
+            scoreCourse += course.votes[i];
+        }
+        bool finishVotation = false;
+        if (course.votes.length == course.addressStudent.length) {
+            finishVotation = true;
+        }
+        return ((scoreCourse / int8(course.votes.length)), finishVotation, course.addressStudent.length);
+    }
 }

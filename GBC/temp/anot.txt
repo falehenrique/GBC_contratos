@@ -1,0 +1,10 @@
+/Applications/Mist.app/Contents/MacOS/Mist --rpc http://localhost:8545 --swarmurl="http://swarm-gateways.net"
+geth --dev --rpc --rpcaddr localhost --rpcapi "eth,personal,admin,web3,net" --datadir private --mine
+
+CustomContracts.find().fetch().map(
+   function(m) { CustomContracts.remove(m._id);}
+)
+
+http://www.ece.northwestern.edu/local-apps/matlabhelp/techdoc/ref/int8.html
+
+https://bitbucket.org/rhitchens2/soliditycrud/src/83703dcaf4d0c4b0d6adc0377455c4f257aa29a7/docs/solidityCRUD-pt1.pdf?at=master&fileviewer=file-view-default

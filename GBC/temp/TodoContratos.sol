@@ -160,7 +160,7 @@ contract Person is Destructible, ContractReceiver {
         LogChangePhoto(_newPhoto, this);
     }
 
-    function validatePerson(bool _valid) public
+    function validate(bool _valid) public
     {
         require(tx.origin != owner);
         validation.validators.push(msg.sender);
@@ -175,7 +175,7 @@ contract Person is Destructible, ContractReceiver {
     function validatePerson(address _contractPerson, bool _valid) public onlyOwner
     {
         Person person = Person(_contractPerson);
-        person.validatePerson(_valid);
+        person.validate(_valid);
     }
 
     function retornaValidacoes() public view returns (uint) {

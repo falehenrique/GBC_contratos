@@ -16,13 +16,13 @@ contract Person is Destructible, ContractReceiver {
     string public birthDate;
     Validation public validation;
     string public photo;
+    bool public isPhotoValid;
 
     event LogValid(address _validatorAddress, address _senderOrigin, address _contractPersonAddress, bool _isValid);
     event LogChangeEmail(string _email, address _contractPerson);
     event LogChangeDocument(string _document, address _contractPerson);
     event LogChangePhone(string _phone, address _contractPerson);
     event LogChangePhoto(string _photo, address _contractPerson);
-
 
     function Person (string _name, string _document, string _email, string _birthDate, string _phone) public
     {
@@ -84,7 +84,7 @@ contract Person is Destructible, ContractReceiver {
         person.validatePerson(_valid);
     }
 
-    function retornaValidacoes() public view returns (uint) {
+    function validations() public view returns (uint) {
         return validation.validators.length;
     }
 }
